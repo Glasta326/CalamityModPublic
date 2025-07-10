@@ -18,7 +18,6 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;
-            //Hi!
         }
 
         public override void SetDefaults()
