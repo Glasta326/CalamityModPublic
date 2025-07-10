@@ -2051,6 +2051,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region FirstStage
             if (NPC.ai[0] == 0f)
             {
+                // Previously the 0.4% health threshold transition
+                if (lifeRatio <= 0.45f && hasSummonedBrothers && (permafrost ? NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) : (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()))) == false)
+                {
+                    NPC.ai[0] = 1f;
+                    NPC.ai[1] = 0f;
+                    NPC.ai[2] = 0f;
+                    NPC.ai[3] = 0f;
+                    NPC.TargetClosest();
+                    NPC.netUpdate = true;
+                }
+
                 if (wormAlive)
                 {
                     NPC.dontTakeDamage = true;
@@ -2434,7 +2445,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         {
                             if (!player.dead)
                                 NPC.ai[3] += wormAlive ? 0.5f : 1f;
+                            if (NPC.ai[3] == 18)
+                            {
 
+                            }
                             if (NPC.ai[3] >= 20f)
                             {
                                 NPC.ai[3] = 0f;
@@ -2458,6 +2472,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                         Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, hellblastDamage, 0f, Main.myPlayer, 0f, 2f);
                                 }
                             }
+                            NPC.life = 650000;
                         }
 
                         if (Main.rand.NextBool()) // Hand spray magic
@@ -2539,16 +2554,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                 }
 
-                // Previously the 0.4% health threshold transition
-                if (lifeRatio <= 0.45f && hasSummonedBrothers && (permafrost ? NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) : (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()))) == false)
-                {
-                    NPC.ai[0] = 1f;
-                    NPC.ai[1] = 0f;
-                    NPC.ai[2] = 0f;
-                    NPC.ai[3] = 0f;
-                    NPC.TargetClosest();
-                    NPC.netUpdate = true;
-                }
+
             }
             #endregion
             #region Transition
